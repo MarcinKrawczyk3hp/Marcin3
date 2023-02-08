@@ -11,7 +11,7 @@
         <label for="uploadedFileInput">
             Wybierz plik do wgrania na serwer:
         </label><br>
-        <input type="file" name="uploadedFile" id="uploadedFileInput"><br>
+        <input type="file" name="uploadedFile" id="uploadedFileInput" required><br>
         <input type="submit" value="Wyślij plik" name="submit"><br>
     </form>
 
@@ -29,13 +29,19 @@
             die("BŁĄD: Przekazany plik nie jest obrazem!");
         }
 
-        $targetURL = $targetDir . $sourceFileName;
+        $newFileName = hash("sha256", $sourceFileName) . hrtime(true)
+                            . ".webp";
 
+        $imageString = file_get_contents($tempURL);
+
+        $gdImage = @imagecreatefromstring($imageString);
+        $targetURL = $targetDir . $newFileName;
         if(file_exists($targetURL)) {
             die("BŁĄD: Podany plik już istnieje!");
         }
+        imagewebp($gdImage, $targetURL);
 
-        move_uploaded_file($tempURL, $targetURL);
+
         echo "Plik został poprawnie wgrany na serwer";
     }
     ?>
