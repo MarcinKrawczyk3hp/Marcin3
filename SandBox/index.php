@@ -7,10 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="post" enctype="multipart/form-data"></form>
+    <form action="" method="post" enctype="multipart/form-data">
     <label for="uploadFile" id="uploadFileInput">
-        Wybierz Plik do wgrania na serwer:
-    </label>
+        Wybierz Plik do wgrania na serwer:<br>
+    </label><br>
         <input type="file" name="uploadedFile" id="uploadedFileInput"><br>
         <input type="submit" value="Wyślij Plik" name="submit"><br>
     </form>
@@ -22,10 +22,10 @@ if(isset($_POST['submit']))
     //echo "<pre>";
     //var_dump($_FILES);
     $targetDir = "img/";
-    $sourceFileName = $_FILES['uploadFile']['name'];
+    $sourceFileName = $_FILES['uploadedFile']['name'];
     $tempURL = $_FILES['uploadedFile']['tmp_name'];
     $targetURL = $targetDir . $sourceFileName;
-    move_upload_file($tempURL, $targetURL);
+    move_uploaded_file($tempURL, $targetURL);
 }
 ?>
 </body>
