@@ -1,32 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
     <form action="" method="post" enctype="multipart/form-data">
-    <label for="uploadFile" id="uploadFileInput">
-        Wybierz Plik do wgrania na serwer:<br>
-    </label><br>
+        <label for="uploadedFileInput">
+            Wybierz plik do wgrania na serwer:
+        </label><br>
         <input type="file" name="uploadedFile" id="uploadedFileInput"><br>
-        <input type="submit" value="Wyślij Plik" name="submit"><br>
+        <input type="submit" value="Wyślij plik" name="submit"><br>
     </form>
 
-<?php
-//Sprawdź czy został wysłany formularz
-if(isset($_POST['submit']))
-{
-    //echo "<pre>";
-    //var_dump($_FILES);
-    $targetDir = "img/";
-    $sourceFileName = $_FILES['uploadedFile']['name'];
-    $tempURL = $_FILES['uploadedFile']['tmp_name'];
-    $targetURL = $targetDir . $sourceFileName;
-    move_uploaded_file($tempURL, $targetURL);
-}
-?>
+    <?php
+    if(isset($_POST['submit'])) 
+    {
+        $targetDir = "img/";
+
+        $sourceFileName = $_FILES['uploadedFile']['name'];
+
+        $tempURL = $_FILES['uploadedFile']['tmp_name'];
+
+        $imgInfo = getimagesize($tempURL);
+        if(!is_array($imgInfo)) {
+            die("BŁĄD: Przekazany plik nie jest obrazem!");
+        }
+
+        $targetURL = $targetDir . $sourceFileName;
+
+        if(file_exists($targetURL)) {
+            die("BŁĄD: Podany plik już istnieje!");
+        }
+
+        move_uploaded_file($tempURL, $targetURL);
+        echo "Plik został poprawnie wgrany na serwer";
+    }
+    ?>
 </body>
 </html>
