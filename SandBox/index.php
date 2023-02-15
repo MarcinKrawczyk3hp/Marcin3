@@ -16,6 +16,7 @@
     </form>
 
     <?php
+
     if(isset($_POST['submit'])) 
     {
         $targetDir = "img/";
@@ -29,7 +30,7 @@
             die("BŁĄD: Przekazany plik nie jest obrazem!");
         }
 
-        $newFileName = hash("sha256", $sourceFileName) . hrtime(true)
+        $newFileName = hash("sha256", $sourceFileName . hrtime(true))
                             . ".webp";
 
         $imageString = file_get_contents($tempURL);
