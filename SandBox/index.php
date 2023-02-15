@@ -20,30 +20,43 @@
     if(isset($_POST['submit'])) 
     {
         $targetDir = "img/";
-
+        $fileName = $_FILES['uploadedFile']['name'];
+        $tempFileUrl = $_FILES['uploadedFile']['tmp_name'];
+        $imageInfo = @getimagesize($tempFileUrl);
         $sourceFileName = $_FILES['uploadedFile']['name'];
+        $fileNameHash = hash("sha256", $sourceFileName) . hrtime(true)
+        . ".webp";
+        $newFileName = $fileNameHash;
+    
+        if(!is_array($imageInfo)){
+            die("Nieprawidłowy format obrazu");
+    }
 
-        $tempURL = $_FILES['uploadedFile']['tmp_name'];
-
-        $imgInfo = getimagesize($tempURL);
-        if(!is_array($imgInfo)) {
-            die("BŁĄD: Przekazany plik nie jest obrazem!");
-        }
-
-        $newFileName = hash("sha256", $sourceFileName . hrtime(true))
-                            . ".webp";
-
-        $imageString = file_get_contents($tempURL);
-
-        $gdImage = @imagecreatefromstring($imageString);
-        $targetURL = $targetDir . $newFileName;
-        if(file_exists($targetURL)) {
-            die("BŁĄD: Podany plik już istnieje!");
-        }
-        imagewebp($gdImage, $targetURL);
+        $imgString = file_get_contents($tempFileUrl);
+        $gdImage = imagecreatefromstring($imgString);
+     
+        $targetExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $targetExtension = strtolower($targetExtension);
+        $targetFileName = $fileName . hrtime(true);
+        $targetFileName = hash("sha256", $targetFileName);
 
 
-        echo "Plik został poprawnie wgrany na serwer";
+        $targetUrl = $targetDir . $fileName . "." . $targetExtension;
+        if(file_exists($targetUrl))
+            die("Plik o tej samej nazwie już istnieje!");
+        $targetUrl = $targetDir . $targetFileName . ".webp";
+        imagewebp($gdImage, $targetUrl);
+        $db = new mysqli('localhost', 'root','', 'cms');
+        $dbTimestamp = date('Y-m-d H:i:s');
+        $q = "INSERT INTO post VALUES (NULL, ?, ?)";
+        $query = $db->prepare($q);
+        $filename = $targetFileName . ".webp";
+        $query->bind_param('ss', $dbTimestamp, $filename);
+        $result = $query->execute();
+        if(!$result) {  
+            die("Nie powiodło się!");
+        } 
+        echo "Plik został poprawnie załadowany";
     }
     ?>
 </body>
