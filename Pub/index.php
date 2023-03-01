@@ -1,4 +1,3 @@
-
 <?php
 require('./../src/config.php');
 
@@ -16,4 +15,9 @@ require('./../src/config.php');
     if(isset($_POST['submit']))  {
         Post::upload($_FILES['uploadedFile']['tmp_name']);
     }
+?>
+
+Ostatni Post:
+<?php
+var_dump(Post::getLast());
 ?>

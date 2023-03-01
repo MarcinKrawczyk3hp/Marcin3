@@ -1,5 +1,25 @@
 <?php
 class Post {
+    private int $id;
+    private string $FileName;
+    private string $TimeStamp;
+
+    function __construct(int $i, string $f, string $t) {
+        $this->id = $i;
+        $this->FileName = $f;
+        $this->TimeStamp = $t;
+    }
+
+    static function getLast() : Post {
+        global $db;
+        $query = $db->prepare("SELECT * FROM post ORDER BY TimeStamp DESC LIMIT 1");
+        $query->execute();
+        $result = $query->get_result();
+        $row = $result->fetch_assoc();
+        $p = new Post($row['id'], $row['FileName'], $row['TimeStamp']);
+        return $p; 
+    }
+
     static function upload(string $tempFileName) {
         $targetDir = "img/";
         $imgInfo = getimagesize($tempFileName);
@@ -18,8 +38,8 @@ class Post {
 
         global $db;
         $query = $db->prepare("INSERT INTO post VALUES(NULL, ?, ?)");
-        $dbTimestamp = date("Y-m-d H:i:s");
-        $query->bind_param("ss", $dbTimestamp, $newFileName);
+        $dbTimeStamp = date("Y-m-d H:i:s");
+        $query->bind_param("ss", $dbTimeStamp, $newFileName);
         if(!$query->execute())
             die("Błąd zapisu do bazy danych");
 
