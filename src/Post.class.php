@@ -1,8 +1,6 @@
-
 <?php
 class Post {
     static function upload(string $tempFileName) {
-
         $targetDir = "img/";
         $imgInfo = getimagesize($tempFileName);
         if(!is_array($imgInfo)) {
@@ -17,6 +15,13 @@ class Post {
         $imageString = file_get_contents($tempFileName);
         $gdImage = @imagecreatefromstring($imageString);
         imagewebp($gdImage, $newFileName);
+
+        global $db;
+        $query = $db->prepare("INSERT INTO post VALUES(NULL, ?, ?)");
+        $dbTimestamp = date("Y-m-d H:i:s");
+        $query->bind_param("ss", $dbTimestamp, $newFileName);
+        if(!$query->execute())
+            die("Błąd zapisu do bazy danych");
 
     }
 }
