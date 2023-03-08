@@ -1,24 +1,31 @@
 <?php
-require('./../src/config.php');
 
-?>
+require_once('./../src/config.php');
 
-<form action="" method="post" enctype="multipart/form-data">
-        <label for="uploadedFileInput">
-            Wybierz plik do wgrania na serwer:
-        </label><br>
-        <input type="file" name="uploadedFile" id="uploadedFileInput" required><br>
-        <input type="submit" value="Wyślij plik" name="submit"><br>
-</form>
+use Steampixel\Route;
 
-<?php
+Route::add('/', function() {
+    global $twig;
+    $PostArray = Post::getPage();
+    $twigData = array("PostArray" => $PostArray,
+                "pageTitle" => "wgraj mema");
+    $twig->display("index.html.twig");
+ 
+});
+Route::add('/upload', function() {
+    global $twig;
+    $twig->display("upload.html.twig");
+});
+
+
+Route::add('/upload', function() {
+    global $twig;
     if(isset($_POST['submit']))  {
         Post::upload($_FILES['uploadedFile']['tmp_name']);
     }
-?>
+    header("Location: https://localhost/Marcin3/Pub");
+}, 'post');
 
-Ostatni Post:
-<pre>
-<?php
-var_dump(Post::getPage());
+Route::run('/Marcin3/Pub');
+//echo "test";
 ?>

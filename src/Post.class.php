@@ -9,7 +9,12 @@ class Post {
         $this->FileName = $f;
         $this->TimeStamp = $t;
     }
-
+    public function getFilename() : string {
+        return $this->FileName;
+    }
+    public function getTimeStamp() : string {
+        return $this->TimeStamp;
+    }
     static function getLast() : Post {
         global $db;
         $query = $db->prepare("SELECT * FROM post ORDER BY TimeStamp DESC LIMIT 1");
