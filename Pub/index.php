@@ -4,12 +4,12 @@ require_once('./../src/config.php');
 
 use Steampixel\Route;
 
-Route::add('/', function() {
+Route::add('', function() {
     global $twig;
     $PostArray = Post::getPage();
     $twigData = array("PostArray" => $PostArray,
                 "pageTitle" => "wgraj mema");
-    $twig->display("index.html.twig");
+    $twig->display("index.html.twig", $twigData);
  
 });
 Route::add('/upload', function() {
@@ -23,7 +23,7 @@ Route::add('/upload', function() {
     if(isset($_POST['submit']))  {
         Post::upload($_FILES['uploadedFile']['tmp_name']);
     }
-    header("Location: https://localhost/Marcin3/Pub");
+    header("Location: localhost/Marcin3/Pub");
 }, 'post');
 
 Route::run('/Marcin3/Pub');

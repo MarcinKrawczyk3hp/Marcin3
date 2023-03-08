@@ -3,8 +3,8 @@
 <h1>{{pageTitle}}</h1>
 
 {% for post in PostArray %}
-<div id='post')
-    <img src"{{ post.getFilename() }}">
+<div id='post'>
+    <img src="{{ post.getFileName() }}">
     <h6> Data dodania: {{ post.getTimeStamp() }} </h6>
     </div>
 {% endfor %}

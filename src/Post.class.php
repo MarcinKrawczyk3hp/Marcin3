@@ -9,7 +9,7 @@ class Post {
         $this->FileName = $f;
         $this->TimeStamp = $t;
     }
-    public function getFilename() : string {
+    public function getFileName() : string {
         return $this->FileName;
     }
     public function getTimeStamp() : string {
