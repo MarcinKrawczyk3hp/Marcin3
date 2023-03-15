@@ -3,11 +3,13 @@ class Post {
     private int $id;
     private string $FileName;
     private string $TimeStamp;
+    private string $name;
 
-    function __construct(int $i, string $f, string $t) {
+    function __construct(int $i, string $f, string $t, string $n) {
         $this->id = $i;
         $this->FileName = $f;
         $this->TimeStamp = $t;
+        $this->name = $n;
     }
     public function getFileName() : string {
         return $this->FileName;
@@ -15,13 +17,16 @@ class Post {
     public function getTimeStamp() : string {
         return $this->TimeStamp;
     }
+    public function gettext() : string {
+        return $this->name;
+    }
     static function getLast() : Post {
         global $db;
         $query = $db->prepare("SELECT * FROM post ORDER BY TimeStamp DESC LIMIT 1");
         $query->execute();
         $result = $query->get_result();
         $row = $result->fetch_assoc();
-        $p = new Post($row['id'], $row['FileName'], $row['TimeStamp']);
+        $p = new Post($row['id'], $row['FileName'], $row['TimeStamp'], $row['name']);
         return $p; 
     }
 
@@ -36,7 +41,7 @@ class Post {
         $postsArray = array();
         
         while($row = $result->fetch_assoc()){
-            $post = new Post($row['id'], $row['FileName'], $row['TimeStamp']);
+            $post = new Post($row['id'], $row['FileName'], $row['TimeStamp'], $row['name']);
             array_push($postsArray, $post);
         }
         return $postsArray;
@@ -51,17 +56,19 @@ class Post {
         $randomNumber = rand(10000, 99999) . hrtime(true);
         $hash = hash("sha256", $randomNumber);
         $newFileName = $targetDir . $hash . ".webp";
+        $name1 = "chuj123" ;
         if(file_exists($newFileName)) {
             die("BŁĄD: Podany plik już istnieje!");
         }
+        
         $imageString = file_get_contents($tempFileName);
         $gdImage = @imagecreatefromstring($imageString);
         imagewebp($gdImage, $newFileName);
 
         global $db;
-        $query = $db->prepare("INSERT INTO post VALUES(NULL, ?, ?)");
+        $query = $db->prepare("INSERT INTO post VALUES(NULL, ?, ?, ?)");
         $dbTimeStamp = date("Y-m-d H:i:s");
-        $query->bind_param("ss", $dbTimeStamp, $newFileName);
+        $query->bind_param("sss", $dbTimeStamp, $newFileName, $name1);
         if(!$query->execute())
             die("Błąd zapisu do bazy danych");
 
