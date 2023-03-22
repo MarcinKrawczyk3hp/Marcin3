@@ -7,6 +7,7 @@ class User {
         $this->email = $email;
 
     }
+
     public function getName() : string {
         return $this->email;
     }
