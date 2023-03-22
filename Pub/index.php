@@ -1,42 +1,33 @@
 <?php
 require_once('./../src/config.php');
-//musi być wywołane zanim jakikolwiek content trafi do przeglądarki użytkownika
 session_start();
 
 use Steampixel\Route;
 
 Route::add('/', function() {
-    //strona wyświetlająca obrazki
     global $twig;
-    //pobierz 10 najnowszych postów
     $postArray = Post::getPage();
     $twigData = array("postArray" => $postArray,
                         "pageTitle" => "Strona główna",
                         );
-    //jeśli użytkownik jest zalogowany to przekaż go do twiga
     if(isset($_SESSION['user']))
         $twigData['user'] = $_SESSION['user'];
     $twig->display("index.html.twig", $twigData);
 });
 
 Route::add('/upload', function() {
-    //strona z formularzem do wgrywania obrazków
     global $twig;
     $twigData = array("pageTitle" => "Wgraj mema");
-    //jeśli użytkownik jest zalogowany to przekaż go do twiga
     if(isset($_SESSION['user']))
         $twigData['user'] = $_SESSION['user'];
     $twig->display("upload.html.twig", $twigData);
 });
 
 Route::add('/upload', function() {
-    //wywoła się tylko po otrzymaniu danych metodą post na ten url
-    // (po wypełnieniu formularza)
     global $twig;
     if(isset($_POST['submit']))  {
         Post::upload($_FILES['uploadedFile']['tmp_name'], $_POST['title'], $_POST['userId']);
     }
-    //TODO: zmienić na ścieżkę względną
     header("Location: http://localhost/Marcin3/pub");
 }, 'post');
 
