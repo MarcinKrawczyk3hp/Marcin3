@@ -1,5 +1,5 @@
 <?php
-require_once('./../src/config.php');
+require_once('./../Marcin3/src/config.php');
 
 use Steampixel\Route;
 
@@ -22,7 +22,7 @@ Route::add('/upload', function() {
     if(isset($_POST['submit']))  {
         Post::upload($_FILES['uploadedFile']['tmp_name'], $_POST['title']);
     }
-    header("Location: http://localhost/cms/pub");
+    header("Location: http://localhost/Marcin3/pub");
 }, 'post');
 
 Route::add('/register', function() {
@@ -39,5 +39,5 @@ Route::add('/register', function(){
     }
 }, 'post');
 
-Route::run('/cms/pub');
+Route::run('/Marcin3/pub');
 ?>
