@@ -61,11 +61,17 @@ Route::add('/login', function(){
 Route::add('/login', function() {
     global $twig;
     if(isset($_POST['submit'])) {
-        User::login($_POST['email'], $_POST['password']);
+        if(User::login($_POST['email'], $_POST['password'])) {
+            header("Location: http://localhost/cms/pub");
+        } else {
+            $twigData = array('pageTitle' => "Zaloguj użytkownika",
+                                "message" => "Niepoprawny login lub hasło!");
+            $twig->display("login.html.twig", $twigData);
+        }
     }
-    header("Location: http://localhost/Marcin3/pub");
+    
 
 }, 'post');
-
+         
 Route::run('/Marcin3/pub');
 ?>
