@@ -18,9 +18,6 @@ Route::add('/', function() {
 Route::add('/upload', function() {
     global $twig;
     $twigData = array("pageTitle" => "Wgraj mema");
-    if(isset($_SESSION['user']))
-        $twigData['user'] = $_SESSION['user'];
-    $twig->display("upload.html.twig", $twigData);
     if(User::isAuth())
     {
         $twigData['user'] = $_SESSION['user'];
@@ -28,7 +25,9 @@ Route::add('/upload', function() {
     } else {
         http_response_code(403);
     }
+
 });
+
 
 Route::add('/upload', function() {
     global $twig;
@@ -51,12 +50,6 @@ Route::add('/register', function(){
         header("Location: http://localhost/Marcin3/pub");
     }
 }, 'post');
-
-Route::add('/login', function(){
-    global $twig;
-    $twigData = array("pageTitle" => "Zaloguj użytkownika");
-    $twig->display("login.html.twig", $twigData);
-});
 
 Route::add('/login', function() {
     global $twig;
