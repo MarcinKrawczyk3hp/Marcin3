@@ -86,7 +86,7 @@ Route::add('/admin', function()  {
 Route::add('/admin/remove/([0-9]*)', function($id) {
     if(Post::remove($id)) {
         //udało się usunąć
-        header("Location: http://localhost/cms/pub/admin/");
+        header("Location: http://localhost/Marcin3/pub/admin/");
     } else {
         die("Nie udało się usunąć podanego obrazka");
     }
