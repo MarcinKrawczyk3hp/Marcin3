@@ -60,7 +60,7 @@ Route::add('/login', function() {
     global $twig;
     if(isset($_POST['submit'])) {
         if(User::login($_POST['email'], $_POST['password'])) {
-            header("Location: http://localhost/cms/pub");
+            header("Location: http://localhost/Marcin3/pub");
         } else {
             $twigData = array('pageTitle' => "Zaloguj użytkownika",
                                 "message" => "Niepoprawny login lub hasło!");
