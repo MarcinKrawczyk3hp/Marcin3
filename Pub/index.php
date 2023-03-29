@@ -21,6 +21,13 @@ Route::add('/upload', function() {
     if(isset($_SESSION['user']))
         $twigData['user'] = $_SESSION['user'];
     $twig->display("upload.html.twig", $twigData);
+    if(User::isAuth())
+    {
+        $twigData['user'] = $_SESSION['user'];
+        $twig->display("upload.html.twig", $twigData);
+    } else {
+        http_response_code(403);
+    }
 });
 
 Route::add('/upload', function() {

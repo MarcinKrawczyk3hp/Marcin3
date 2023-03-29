@@ -24,7 +24,6 @@ class User {
         $row = $result->fetch_assoc();
         return $row['email'];
     }
-
     public static function register(string $email, string $password) : bool {
         global $db;
         $query = $db->prepare("INSERT INTO user VALUES (NULL, ?, ?)");
@@ -32,7 +31,6 @@ class User {
         $query->bind_param('ss', $email, $passwordHash);
         return $query->execute();
     }
-
     public static function login(string $email, string $password) {
         global $db;
         $query = $db->prepare("SELECT * FROM user WHERE email = ? LIMIT 1");
@@ -46,6 +44,18 @@ class User {
             $_SESSION['user'] = $u;
         }
     }
+    public static function isAuth() : bool {
+        if(isset($_SESSION['user'])) {
+            if($_SESSION['user'] instanceof User) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
+
 
 ?>
