@@ -50,6 +50,11 @@ Route::add('/register', function(){
         header("Location: http://localhost/Marcin3/pub");
     }
 }, 'post');
+Route::add('/login', function(){
+    global $twig;
+    $twigData = array("pageTitle" => "Zaloguj użytkownika");
+    $twig->display("login.html.twig", $twigData);
+});
 
 Route::add('/login', function() {
     global $twig;
