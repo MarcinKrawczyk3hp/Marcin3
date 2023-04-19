@@ -4,9 +4,7 @@ class Post {
     private string $filename;
     private string $timestamp;
     private string $title;
-    //id użytkownika który wgrał mema
     private string $authorId;
-    //nazwa użytkownika autora mema
     private string $authorName;
 
     function __construct(int $i, string $f, string $t, string $title, int $authorId ) {
