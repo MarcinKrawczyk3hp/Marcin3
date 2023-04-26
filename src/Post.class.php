@@ -7,8 +7,9 @@ class Post {
     private string $authorId;
     private string $authorName;
     private int $score;
+    private int $vote;
 
-    function __construct(int $i, string $f, string $t, string $title, int $authorId ) {
+    function __construct(int $i, string $f, string $t, string $title, int $authorId) {
         $this->id = $i;
         $this->filename = $f;
         $this->timestamp = $t;
@@ -17,7 +18,12 @@ class Post {
         global $db;
         $this->authorName = User::getNameById($this->authorId);
         $this->score = Vote::getScore($this->id);
-    }
+        if(User::isAuth())
+        $this->vote = Vote::getVote($this->id, $_SESSION['user']->getId());
+    else 
+        $this->vote = 0;
+}
+    
     public function getId() : int {
         return $this->id;
     }
@@ -37,7 +43,10 @@ class Post {
     public function getScore() : int {
         return $this->score;
     }
-
+    public function getVote() : int {
+        return $this->vote;
+    }
+    
     static function getLast() : Post {
         global $db;
         $query = $db->prepare("SELECT * FROM post ORDER BY timestamp DESC LIMIT 1");
