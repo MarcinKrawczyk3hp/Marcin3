@@ -1,8 +1,10 @@
 {% include 'header.html.twig' %}
 <div id="pageContainer">
-    <h1>{{pageTitle}}</h1>
     {# jeśli użytkownik jest zalogowany to pokaż #}
-    {% if user is defined %}
+    <h1>{{pageTitle}}</h1>
+    <div class="uzytkownik">{% if user is defined %}</div>
+    <div class="post"><button onclick="window.location.href='http://localhost/Marcin3/pub/admin'">Admin Panel</button>
+    <button onclick="window.location.href='http://localhost/Marcin3/pub/upload'">Nowy Post!</a></button></div>
     <div id="loggedUser">Zalogowany użytkownik: {{ user.getName() }} </div>
     {% endif %}
     {% for post in postArray %}

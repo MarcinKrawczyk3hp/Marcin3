@@ -8,6 +8,7 @@ div#pageContainer {
 }
 h1 {
     text-align: center;
+    width: 100%;
 }
 div#post {
     background-color: lightgray;
@@ -19,9 +20,31 @@ div#post img {
 }
 div#loggedUser {
     text-align: right;
-    font-weight: 1.5rem;
-
+    font-weight: 2rem;
+    border: solid;
+    border-color: #ff0000;
 }
 img.thumbnail {
     max-width: 300px;
+}
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #0077ff;
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+    float: right;
+  }
+.logowanie {
+    float: right;
+    width: 100%;
+    background-color: #7cb7faa4;
+}
+.post {    
+    float: right;
+    width: 100%;
 }
