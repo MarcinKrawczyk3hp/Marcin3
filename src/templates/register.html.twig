@@ -1,4 +1,4 @@
-{% include 'header.html.twig' %}
+{% include 'header1.html.twig' %}
 <div id="pageContainer">
     <h1>{{ pageTitle|default("Brak tytułu podstrony")}}</h1>
     <form action="" method="post">
@@ -9,4 +9,5 @@
         <input type="submit" name="submit" value="Zarejestruj">
     </form>
 </div>
+<button onclick="window.location.href='http://localhost/Marcin3/pub/'">Powrót</button>
 {% include 'footer.html.twig' %}
