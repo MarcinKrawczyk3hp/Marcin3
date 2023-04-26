@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 26 Kwi 2023, 15:03
+-- Czas generowania: 26 Kwi 2023, 16:09
 -- Wersja serwera: 10.4.24-MariaDB
 -- Wersja PHP: 8.0.19
 
@@ -76,6 +76,27 @@ INSERT INTO `user` (`id`, `email`, `password`) VALUES
 (5, 'jan@kowalski.pl', '$argon2i$v=19$m=65536,t=4,p=1$MUZFSUpoZC92bzJMa0ZVQw$XMo7mAZF8Ubi2d5/dv5c5udO20EiTpmfJ65/SVZtn5s'),
 (6, '123@123.pl', '$argon2i$v=19$m=65536,t=4,p=1$SlJLMndBLmNGMFZxbDFFMw$ToZhAd9KaC4SfE8yXFVp5r4i6MyEhfLfrSBblt49lxo');
 
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `votes`
+--
+
+CREATE TABLE `votes` (
+  `id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `votes`
+--
+
+INSERT INTO `votes` (`id`, `post_id`, `score`, `user_id`) VALUES
+(1, 35, 1, 6),
+(3, 37, 1, 6);
+
 --
 -- Indeksy dla zrzutów tabel
 --
@@ -93,6 +114,15 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeksy dla tabeli `votes`
+--
+ALTER TABLE `votes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `post_id_2` (`post_id`,`user_id`),
+  ADD KEY `post_id` (`post_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- AUTO_INCREMENT dla zrzuconych tabel
 --
 
@@ -107,6 +137,12 @@ ALTER TABLE `post`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT dla tabeli `votes`
+--
+ALTER TABLE `votes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
