@@ -1,9 +1,10 @@
 <?php
 class Vote {
 
+
     public static function upVote(int $postId, int $userId) : bool {
         global $db;
-        $query = $db->prepare("INSERT INTO vote VALUES (NULL, ?, 1, ?)");
+        $query = $db->prepare("INSERT INTO votes VALUES (NULL, ?, 1, ?)");
         $query->bind_param('ii', $postId, $userId);
         if($query->execute())
             return true;
@@ -11,7 +12,7 @@ class Vote {
     }
     public static function downVote(int $postId, int $userId) : bool {
         global $db;
-        $query = $db->prepare("INSERT INTO vote VALUES (NULL, ?, -1, ?)");
+        $query = $db->prepare("INSERT INTO votes VALUES (NULL, ?, -1, ?)");
         $query->bind_param('ii', $postId, $userId);
         if($query->execute())
             return true;
@@ -19,7 +20,7 @@ class Vote {
     }
     public static function getScore(int $postId) : int {
         global $db;
-        $query = $db->prepare("SELECT SUM(score) FROM vote WHERE post_id = ?");
+        $query = $db->prepare("SELECT SUM(score) FROM votes WHERE post_id = ?");
         $query->bind_param('i', $postId);
         if($query->execute()){
             $result = $query->get_result();
@@ -37,7 +38,7 @@ class Vote {
     }
     public static function getVote(int $postId, int $userId) : int {
         global $db;
-        $query = $db->prepare("SELECT score FROM vote WHERE post_id = ? AND user_id = ?");
+        $query = $db->prepare("SELECT score FROM votes WHERE post_id = ? AND user_id = ?");
         $query->bind_param('ii', $postId, $userId);
         if($query->execute()) {
             $result = $query->get_result();

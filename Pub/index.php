@@ -93,11 +93,11 @@ Route::add('/admin/remove/([0-9]*)', function($id) {
 
 Route::add('/upvote/([0-9]*)', function($id) {
     Vote::upVote($id, $_SESSION['user']->getId());
-    header("Location: http://localhost/cms/pub/");
+    header("Location: http://localhost/Marcin3/pub/");
 });
 Route::add('/downvote/([0-9]*)', function($id) {
     Vote::downVote($id, $_SESSION['user']->getId());
-    header("Location: http://localhost/cms/pub/");
+    header("Location: http://localhost/Marcin3/pub/");
 });
 
 Route::run('/Marcin3/pub');
